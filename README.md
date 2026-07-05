@@ -6,7 +6,7 @@ This repository contains curated production files used to support a journal subm
 
 - `FE_Model_MEA_Geometries.mph` - COMSOL Multiphysics model file for the microelectrode array geometries.
 - `Regression Model and Least Square Mean Analysis of Combination Effects.jrp` - JMP project containing the regression model and least-squares mean analysis.
-- `Dataset/` - Excel workbooks used for figure generation and strain-profile analysis.
+- `Dataset/` - Excel workbooks generated from COMSOL simulation and used for figure generation and strain-profile analysis.
 - `Scripts/` - Python plotting scripts used to reproduce selected manuscript figures.
 - `Images/` - final figure panels and exported figure files included for reference.
 
@@ -25,7 +25,7 @@ Figure files and related scripts use concise GitHub-friendly names while preserv
 | Figure 7 | `Images/Figure7_LongThin_Device/` | `Scripts/Figure7_LongThin_Device/` |
 | Figure 8 | `Images/Figure8_ShortWide_Device/` | `Scripts/Figure8_ShortWide_Device/` |
 
-The Figure 7 and Figure 8 folders contain separate PDF panels for the 3D volumetric strain distribution, equivalent strain profiles, average-strain heatmap, and quantitative comparison.
+The Figure 7 and Figure 8 folders contain separate PDF panels for the 3D volumetric strain distribution, equivalent strain profiles, average-strain heatmap, and quantitative comparison of two different geometries of neural probe (short wide probe and long narrow probe).
 
 ## Data files
 
