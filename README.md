@@ -76,5 +76,7 @@ python "Scripts/Figure5_ThreeWay_Interaction.py"
 If using this repository, cite the associated journal article once published. Until publication, cite this repository as the reproducibility package for the submitted manuscript.
 
 ## License
-
-No license file is currently included. Reuse permissions should be confirmed with the manuscript authors before redistribution or derivative use.
+Copyright (c) 2026 Authors
+All rights reserved.
+Permission is granted to view and download these materials for personal research and academic verification only.
+Reproduction, redistribution, modification, or derivative use of any content in this repository requires prior written permission from the manuscript authors.
