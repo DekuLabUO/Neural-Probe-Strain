@@ -1,0 +1,880 @@
+﻿Local Here(
+	(table1 = New Table(
+		"Rubiya--Full Factoria--LOG STRAIN ANALYZED--modifiedVThickness",
+		Add Rows( 32 ),
+		New Table Variable( "Design", "Full Factorial" ),
+		New Script(
+			"Screening",
+			Fit Two Level Screening(
+				Y( :Strain ),
+				X(
+					:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+					:"Modulus (GPa)"n, :"Displacement (um)"n
+				)
+			)
+		),
+		New Script(
+			"Model",
+			Fit Model(
+				Effects(
+					:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+					:"Modulus (GPa)"n, :"Displacement (um)"n,
+					:"Length (mm)"n * :"Width (um)"n,
+					:"Length (mm)"n * :"Thickness (um)"n,
+					:"Width (um)"n * :"Thickness (um)"n,
+					:"Length (mm)"n * :"Modulus (GPa)"n,
+					:"Width (um)"n * :"Modulus (GPa)"n,
+					:"Thickness (um)"n * :"Modulus (GPa)"n,
+					:"Length (mm)"n * :"Displacement (um)"n,
+					:"Width (um)"n * :"Displacement (um)"n,
+					:"Thickness (um)"n * :"Displacement (um)"n,
+					:"Modulus (GPa)"n * :"Displacement (um)"n,
+					:"Length (mm)"n * :"Width (um)"n,
+					:"Length (mm)"n * :"Thickness (um)"n,
+					:"Length (mm)"n * :"Modulus (GPa)"n,
+					:"Length (mm)"n * :"Displacement (um)"n,
+					:"Width (um)"n * :"Thickness (um)"n,
+					:"Width (um)"n * :"Modulus (GPa)"n,
+					:"Width (um)"n * :"Displacement (um)"n,
+					:"Thickness (um)"n * :"Modulus (GPa)"n,
+					:"Thickness (um)"n * :"Displacement (um)"n,
+					:"Modulus (GPa)"n * :"Displacement (um)"n
+				),
+				Y( :Strain ),
+				PERSONALITY( Standard Least Squares )
+			)
+		),
+		New Script(
+			"Evaluate Design",
+			DOE(
+				Evaluate Design,
+				X(
+					:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+					:"Modulus (GPa)"n, :"Displacement (um)"n
+				)
+			)
+		),
+		New Script(
+			"DOE Dialog",
+			DOE(
+				Screening Design,
+				{Add Response( Maximize, "Strain", ., ., . ),
+				Add Factor( Categorical, {"1", "5"}, "Length (mm)", 0 ),
+				Add Factor( Categorical, {"1", "100"}, "Width (um)", 0 ),
+				Add Factor( Categorical, {"1", "100"}, "Thickness (um)", 0 ),
+				Add Factor( Categorical, {"2", "300"}, "Modulus (GPa)", 0 ),
+				Add Factor( Categorical, {"1", "50"}, "Displacement (um)", 0 ),
+				Set Random Seed( 468795 ), Make Design( 8 ), Simulate Responses( 0 ),
+				Save X Matrix( 0 )}
+			)
+		),
+		New Script(
+			"Fit Least Squares",
+			Fit Model(
+				Y( :"Log(Strain)"n ),
+				Effects(
+					:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+					:"Modulus (GPa)"n, :"Displacement (um)"n,
+					:"Length (mm)"n * :"Width (um)"n,
+					:"Length (mm)"n * :"Thickness (um)"n,
+					:"Length (mm)"n * :"Modulus (GPa)"n,
+					:"Length (mm)"n * :"Displacement (um)"n,
+					:"Width (um)"n * :"Thickness (um)"n,
+					:"Width (um)"n * :"Modulus (GPa)"n,
+					:"Width (um)"n * :"Displacement (um)"n,
+					:"Thickness (um)"n * :"Modulus (GPa)"n,
+					:"Thickness (um)"n * :"Displacement (um)"n,
+					:"Modulus (GPa)"n * :"Displacement (um)"n,
+					:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+					:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+					:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+					:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+					:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+					:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+					:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+					:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+					:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+					:"Displacement (um)"n,
+					:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+					:"Displacement (um)"n
+				),
+				Personality( "Standard Least Squares" ),
+				History(
+					Effects(
+						:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+						:"Modulus (GPa)"n, :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Thickness (um)"n * :"Displacement (um)"n,
+						:"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n
+					),
+					Effects(
+						:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+						:"Modulus (GPa)"n, :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Thickness (um)"n * :"Displacement (um)"n,
+						:"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n
+					),
+					Effects(
+						:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+						:"Modulus (GPa)"n, :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Thickness (um)"n * :"Displacement (um)"n,
+						:"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n
+					),
+					Effects(
+						:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+						:"Modulus (GPa)"n, :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Thickness (um)"n * :"Displacement (um)"n,
+						:"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+						:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+						:"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+						:"Modulus (GPa)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n,
+						:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+						:"Displacement (um)"n
+					)
+				),
+				Emphasis( "Effect Leverage" ),
+				Run(
+					:"Log(Strain)"n << {Summary of Fit( 1 ),
+					Analysis of Variance( 1 ), Parameter Estimates( 1 ),
+					Lack of Fit( 0 ), Scaled Estimates( 0 ),
+					Plot Actual by Predicted( 1 ), Plot Regression( 0 ),
+					Plot Residual by Predicted( 1 ), Plot Studentized Residuals( 0 ),
+					Plot Effect Leverage( 1 ), Box Cox Y Transformation( 0 ),
+					{:"Length (mm)"n << {Least Squares Means Plot}, :"Width (um)"n
+					 << {Least Squares Means Plot}, :"Displacement (um)"n <<
+					{Least Squares Means Plot}, :"Length (mm)"n * :"Width (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					)}, :"Length (mm)"n * :"Thickness (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					)}, :"Length (mm)"n * :"Displacement (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					)}, :"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					), Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n ),
+						Plot By Term List( "Width (um)"n )
+					)}, :"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					)}, :"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+					:"Displacement (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Length (mm)"n )
+					), Least Squares Means Plot(
+						Overlay Term List( :"Displacement (um)"n )
+					)}, :"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+					:"Displacement (um)"n <<
+					{Least Squares Means Plot(
+						Overlay Term List( :"Displacement (um)"n )
+					)}}, Plot Residual by Normal Quantiles( 1 )}
+				),
+				SendToReport(
+					Dispatch( {"Length (mm)", "Least Squares Means Plot"},
+						"Least Squares Means Plot", FrameBox,
+						{DispatchSeg(
+							BarSeg( 1 ),
+							{Line Color( "Red" ), Line Width( 2 )}
+						)}
+					),
+					Dispatch( {"Width (um)", "Least Squares Means Plot"},
+						"Least Squares Means Plot", FrameBox,
+						{DispatchSeg(
+							BarSeg( 1 ),
+							{Line Color( "Red" ), Line Width( 2 )}
+						)}
+					),
+					Dispatch( {}, "Thickness (um)", OutlineBox, {Close( 1 )} ),
+					Dispatch( {}, "Modulus (GPa)", OutlineBox, {Close( 1 )} ),
+					Dispatch( {"Displacement (um)", "Least Squares Means Plot"},
+						"Least Squares Means Plot", FrameBox,
+						{DispatchSeg(
+							BarSeg( 1 ),
+							{Line Color( "Red" ), Line Width( 2 )}
+						)}
+					),
+					Dispatch( {}, "Length (mm)*Modulus (GPa)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Width (um)*Thickness (um)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Width (um)*Modulus (GPa)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Thickness (um)*Modulus (GPa)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Thickness (um)*Displacement (um)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Modulus (GPa)*Displacement (um)", OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {"Length (mm)*Width (um)*Displacement (um)"},
+						"Least Squares Means Plot", Outline Box( 2 ),
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Length (mm)*Modulus (GPa)*Displacement (um)",
+						OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Width (um)*Thickness (um)*Modulus (GPa)",
+						OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch( {}, "Width (um)*Modulus (GPa)*Displacement (um)",
+						OutlineBox,
+						{Close( 1 )}
+					),
+					Dispatch(
+						{
+						"Length (mm)*Thickness (um)*Modulus (GPa)*Displacement (um)"
+						}, "Least Squares Means Table", OutlineBox,
+						{Close( 0 )}
+					)
+				)
+			)
+		),
+		New Column( "Pattern",
+			Character,
+			"Nominal",
+			Set Values(
+				{"−+++−", "−−−+−", "++−++", "+−−++", "−−−−−", "−−−−+", "−++−+",
+				"+−++−", "−+−−−", "−−−++", "++−−+", "−−+++", "−++−−", "+++−−",
+				"+−−−−", "−−++−", "+−+−+", "−+−+−", "++−−−", "+−+++", "+−+−−",
+				"−++++", "−−+−+", "++++−", "++−+−", "−+−++", "+−−−+", "−−+−−",
+				"+++−+", "+−−+−", "+++++", "−+−−+"}
+			),
+			Set Display Width( 41 )
+		),
+		New Column( "Length (mm)",
+			Character( 1 ),
+			"Nominal",
+			Set Property( "Value Order", {Custom Order( {"1", "5"} )} ),
+			Set Property( "Design Role", DesignRole( Categorical ) ),
+			Set Property( "Factor Changes", Easy ),
+			Set Selected,
+			Set Values(
+				{"1", "1", "5", "5", "1", "1", "1", "5", "1", "1", "5", "1", "1",
+				"5", "5", "1", "5", "1", "5", "5", "5", "1", "1", "5", "5", "1", "5",
+				"1", "5", "5", "5", "1"}
+			),
+			Set Display Width( 73 )
+		),
+		New Column( "Width (um)",
+			Character( 3 ),
+			"Nominal",
+			Set Property( "Value Order", {Custom Order( {"1", "100"} )} ),
+			Set Property( "Design Role", DesignRole( Categorical ) ),
+			Set Property( "Factor Changes", Easy ),
+			Set Values(
+				{"100", "1", "100", "1", "1", "1", "100", "1", "100", "1", "100",
+				"1", "100", "100", "1", "1", "1", "100", "100", "1", "1", "100", "1",
+				"100", "100", "100", "1", "1", "100", "1", "100", "100"}
+			),
+			Set Display Width( 65 )
+		),
+		New Column( "Thickness (um)",
+			Character( 3 ),
+			"Nominal",
+			Set Property( "Value Order", {Custom Order( {"1", "100"} )} ),
+			Set Property( "Design Role", DesignRole( Categorical ) ),
+			Set Property( "Factor Changes", Easy ),
+			Set Values(
+				{"100", "1", "1", "1", "1", "1", "100", "100", "1", "1", "1", "100",
+				"100", "100", "1", "100", "100", "1", "1", "100", "100", "100",
+				"100", "100", "1", "1", "1", "100", "100", "1", "100", "1"}
+			),
+			Set Display Width( 84 )
+		),
+		New Column( "Modulus (GPa)",
+			Character( 3 ),
+			"Nominal",
+			Set Property( "Value Order", {Custom Order( {"2", "300"} )} ),
+			Set Property( "Design Role", DesignRole( Categorical ) ),
+			Set Property( "Factor Changes", Easy ),
+			Set Values(
+				{"300", "300", "300", "300", "2", "2", "2", "300", "2", "300", "2",
+				"300", "2", "2", "2", "300", "2", "300", "2", "300", "2", "300", "2",
+				"300", "300", "300", "2", "2", "2", "300", "300", "2"}
+			),
+			Set Display Width( 83 )
+		),
+		New Column( "Displacement (um)",
+			Character( 2 ),
+			"Nominal",
+			Set Property( "Value Order", {Custom Order( {"1", "50"} )} ),
+			Set Property( "Design Role", DesignRole( Categorical ) ),
+			Set Property( "Factor Changes", Easy ),
+			Set Values(
+				{"1", "1", "50", "50", "1", "50", "50", "1", "1", "50", "50", "50",
+				"1", "1", "1", "1", "50", "1", "1", "50", "1", "50", "50", "1", "1",
+				"50", "50", "1", "50", "1", "50", "50"}
+			),
+			Set Display Width( 95 )
+		),
+		New Column( "Strain",
+			Numeric,
+			"Continuous",
+			Format( "Best", 12 ),
+			Set Property(
+				"Response Limits",
+				{Goal( Maximize ), Lower( . ), Upper( . ), Importance( . )}
+			),
+			Set Values(
+				[0.231, 0.0000284, 1.33, 1.16, 0.0000228, 0.137, 5.12, 0.0000251,
+				0.00023, 1.31, 1.12, 1.5, 11.7, 0.00844, 0.0000266, 0.108, 1.23,
+				0.111, 0.000275, 1.26, 0.0000244, 7.45, 1.3, 0.0000343, 0.0000288,
+				5.36, 0.388, 0.0000283, 1.26, 0.0000275, 1.58, 1.12]
+			),
+			Set Display Width( 72 )
+		),
+		New Column( "Log(Strain)",
+			Numeric,
+			"Continuous",
+			Format( "Best", 12 ),
+			Formula( Log10( :Strain ) ),
+			Set Display Width( 73 )
+		),
+		Set Row States(
+			[768.82924413681, 768.82924413681, 1280.259534657, 1280.259534657,
+			768.82924413681, 768.82924413681, 768.82924413681, 1280.259534657,
+			768.82924413681, 768.82924413681, 1280.259534657, 768.82924413681,
+			768.82924413681, 1280.259534657, 1280.259534657, 768.82924413681,
+			1280.259534657, 768.82924413681, 1280.259534657, 1280.259534657,
+			1280.259534657, 768.82924413681, 768.82924413681, 1280.259534657,
+			1280.259534657, 768.82924413681, 1280.259534657, 768.82924413681,
+			1280.259534657, 1280.259534657, 1280.259534657, 768.82924413681]
+		),
+		Set Label Columns( :Pattern )
+	)) << Run Formulas;
+	table1 << Fit Model(
+		Y( :"Log(Strain)"n ),
+		Effects(
+			:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n, :"Modulus (GPa)"n,
+			:"Displacement (um)"n, :"Length (mm)"n * :"Width (um)"n,
+			:"Length (mm)"n * :"Thickness (um)"n,
+			:"Length (mm)"n * :"Modulus (GPa)"n,
+			:"Length (mm)"n * :"Displacement (um)"n,
+			:"Width (um)"n * :"Thickness (um)"n, :"Width (um)"n * :"Modulus (GPa)"n,
+			:"Width (um)"n * :"Displacement (um)"n,
+			:"Thickness (um)"n * :"Modulus (GPa)"n,
+			:"Thickness (um)"n * :"Displacement (um)"n,
+			:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+			:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+			:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+			:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+			:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+			:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+			:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+			:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+			:"Displacement (um)"n
+		),
+		Personality( "Standard Least Squares" ),
+		History(
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+				:"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+				:"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			),
+			Effects(
+				:"Length (mm)"n, :"Width (um)"n, :"Thickness (um)"n,
+				:"Modulus (GPa)"n, :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Thickness (um)"n * :"Displacement (um)"n,
+				:"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n,
+				:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Thickness (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+				:"Modulus (GPa)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Thickness (um)"n *
+				:"Displacement (um)"n,
+				:"Length (mm)"n * :"Width (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n,
+				:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+				:"Displacement (um)"n
+			)
+		),
+		Emphasis( "Effect Leverage" ),
+		Run(
+			:"Log(Strain)"n << {Summary of Fit( 1 ), Analysis of Variance( 1 ),
+			Parameter Estimates( 1 ), Lack of Fit( 0 ), Scaled Estimates( 0 ),
+			Plot Actual by Predicted( 1 ), Plot Regression( 0 ),
+			Plot Residual by Predicted( 1 ), Plot Studentized Residuals( 0 ),
+			Plot Effect Leverage( 1 ), Box Cox Y Transformation( 0 ), AICc( 1 ),
+			{:"Length (mm)"n << {Least Squares Means Plot}, :"Width (um)"n <<
+			{LSMeans Student's t( 0.05, Detailed Comparisons( 1 ) ),
+			Least Squares Means Plot}, :"Thickness (um)"n <<
+			{Least Squares Means Plot}, :"Modulus (GPa)"n <<
+			{Least Squares Means Plot}, :"Displacement (um)"n <<
+			{Least Squares Means Plot}, :"Length (mm)"n * :"Width (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( No Overlay Terms )}, :"Length (mm)"n *
+			:"Thickness (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( No Overlay Terms )}, :"Length (mm)"n *
+			:"Modulus (GPa)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( No Overlay Terms )}, :"Length (mm)"n *
+			:"Displacement (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( No Overlay Terms )}, :"Width (um)"n *
+			:"Thickness (um)"n << {Least Squares Means Plot( No Overlay Terms )},
+			:"Width (um)"n * :"Modulus (GPa)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Width (um)"n ) )},
+			:"Width (um)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Thickness (um)"n * :"Modulus (GPa)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Modulus (GPa)"n ) )},
+			:"Thickness (um)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Length (mm)"n * :"Width (um)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot(
+				Overlay Term List( :"Length (mm)"n ),
+				Plot By Term List( "Width (um)"n )
+			), Least Squares Means Plot(
+				Overlay Term List( :"Displacement (um)"n )
+			)}, :"Length (mm)"n * :"Thickness (um)"n * :"Modulus (GPa)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( No Overlay Terms )}, :"Length (mm)"n *
+			:"Thickness (um)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Length (mm)"n * :"Modulus (GPa)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( Overlay Term List( :"Length (mm)"n ) ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Width (um)"n ) )},
+			:"Width (um)"n * :"Thickness (um)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Width (um)"n * :"Modulus (GPa)"n * :"Displacement (um)"n <<
+			{Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )},
+			:"Width (um)"n * :"Thickness (um)"n * :"Modulus (GPa)"n *
+			:"Displacement (um)"n << {Least Squares Means Plot( No Overlay Terms ),
+			Least Squares Means Plot( Overlay Term List( :"Displacement (um)"n ) )}},
+			Plot Residual by Normal Quantiles( 1 ), Durbin Watson Test( 1 ),
+			Sequential Tests( 1 ), Cube Plots( 1 ), Show Prediction Expression( 1 )}
+		),
+		Automatic Recalc( 1 ),
+		SendToReport(
+			Dispatch( {"Whole Model"}, "Parameter Estimates", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch( {"Length (mm)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{Add Graphics Script( 2, Description( "" ), Empty() ),
+				DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)", OutlineBox, {Close( 1 )} ),
+			Dispatch(
+				{"Width (um)", "LSMeans Differences Student's t",
+				"Comparing 100 with 1"}, "FitLS MultComp", FrameBox,
+				{Frame Size( 234, 94 )}
+			),
+			Dispatch( {"Width (um)", "Least Squares Means Plot"}, "1", ScaleBox,
+				{Label Row( Show Major Grid( 1 ) )}
+			),
+			Dispatch( {"Width (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{Marker Size( 4 ), Marker Drawing Mode( "Normal" ),
+				DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {"Thickness (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Modulus (GPa)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Modulus (GPa)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {"Displacement (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {"Length (mm)*Width (um)", "Least Squares Means Plot"[2]},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Length (mm)*Thickness (um)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Length (mm)*Thickness (um)", "Least Squares Means Plot"[2]},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Length (mm)*Modulus (GPa)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Length (mm)*Modulus (GPa)", "Least Squares Means Plot"},
+				"1000", LegendBox,
+				{Orientation( "Auto" )}
+			),
+			Dispatch( {"Length (mm)*Modulus (GPa)", "Least Squares Means Plot"[2]},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Length (mm)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Length (mm)*Displacement (um)", "Least Squares Means Plot"[2]},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)*Thickness (um)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Width (um)*Thickness (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)*Modulus (GPa)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Width (um)*Modulus (GPa)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)*Displacement (um)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Width (um)*Displacement (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Thickness (um)*Modulus (GPa)", OutlineBox, {Close( 1 )} ),
+			Dispatch( {"Thickness (um)*Modulus (GPa)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Thickness (um)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Thickness (um)*Displacement (um)", "Least Squares Means Plot"},
+				"Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Length (mm)*Width (um)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch( {"Length (mm)*Width (um)*Displacement (um)"},
+				"Least Squares Means Plot", Outline Box( 2 ),
+				{Close( 1 )}
+			),
+			Dispatch( {}, "Length (mm)*Thickness (um)*Modulus (GPa)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Length (mm)*Thickness (um)*Modulus (GPa)",
+				"Least Squares Means Plot"[2]}, "Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Length (mm)*Thickness (um)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch( {}, "Length (mm)*Modulus (GPa)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Width (um)*Thickness (um)*Modulus (GPa)",
+				"Least Squares Means Plot"}, "Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)*Thickness (um)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Width (um)*Thickness (um)*Displacement (um)",
+				"Least Squares Means Plot"}, "Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Width (um)*Modulus (GPa)*Displacement (um)", OutlineBox,
+				{Close( 1 )}
+			),
+			Dispatch(
+				{"Width (um)*Modulus (GPa)*Displacement (um)",
+				"Least Squares Means Plot"}, "Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch(
+				{"Width (um)*Thickness (um)*Modulus (GPa)*Displacement (um)",
+				"Least Squares Means Plot"}, "Least Squares Means Plot", FrameBox,
+				{DispatchSeg( BarSeg( 1 ), {Line Color( "Red" ), Line Width( 2 )} )}
+			),
+			Dispatch( {}, "Durbin-Watson", OutlineBox, {Close( 1 )} ),
+			Dispatch( {}, "Sequential (Type 1) Tests", OutlineBox, {Close( 1 )} ),
+			Dispatch( {}, "Cube Plot", OutlineBox, {Close( 1 )} ),
+			Dispatch( {}, "Prediction Expression", OutlineBox, {Close( 1 )} )
+		)
+	);
+)
