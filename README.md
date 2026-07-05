@@ -14,19 +14,6 @@ This repository contains curated production files used to support a journal subm
 
 Figure files and related scripts use concise GitHub-friendly names while preserving the manuscript figure numbers.
 
-| Figure | Output file or folder | Matching script location |
-| --- | --- | --- |
-| Figure 1 | `Images/Figure1_MEA_Geometry.png` and `Images/Figure1_MEA_Geometry.pdf` | COMSOL model source: `FE_Model_MEA_Geometries.mph` |
-| Figure 2 | `Images/Figure2_Regression_Validation.png` | JMP project source: `Regression Model and Least Square Mean Analysis of Combination Effects.jrp` |
-| Figure 3 | `Images/Figure3_LSMean_Strain.pdf` | `Scripts/Figure3_LSMean_Strain.py` |
-| Figure 4 | `Images/Figure4_TwoWay_Interaction.pdf` | `Scripts/Figure4_TwoWay_Interaction.py` |
-| Figure 5 | `Images/Figure5_ThreeWay_Interaction.pdf` | `Scripts/Figure5_ThreeWay_Interaction.py` |
-| Figure 6 | `Images/Figure6_FourWay_Interaction.pdf` | `Scripts/Figure6_FourWay_Interaction.py` |
-| Figure 7 | `Images/Figure7_LongThin_Device/` | `Scripts/Figure7_LongThin_Device/` |
-| Figure 8 | `Images/Figure8_ShortWide_Device/` | `Scripts/Figure8_ShortWide_Device/` |
-
-The Figure 7 and Figure 8 folders contain separate PDF panels for the 3D volumetric strain distribution, equivalent strain profiles, average-strain heatmap, and quantitative comparison of two different geometries of neural probe (short wide probe and long narrow probe).
-
 ## Data files
 
 The `Dataset/` directory includes the tabular files distributed with this submission package:
